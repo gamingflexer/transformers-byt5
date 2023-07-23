@@ -295,8 +295,6 @@
         title: ErnieM
       - local: model_doc/esm
         title: ESM
-      - local: model_doc/falcon
-        title: Falcon
       - local: model_doc/flan-t5
         title: FLAN-T5
       - local: model_doc/flan-ul2
@@ -363,8 +361,6 @@
         title: MobileBERT
       - local: model_doc/mpnet
         title: MPNet
-      - local: model_doc/mra
-        title: MRA
       - local: model_doc/mt5
         title: MT5
       - local: model_doc/mvp
@@ -429,8 +425,6 @@
         title: Transformer XL
       - local: model_doc/ul2
         title: UL2
-      - local: model_doc/umt5
-        title: UMT5
       - local: model_doc/xmod
         title: X-MOD
       - local: model_doc/xglm
@@ -538,8 +532,6 @@
         title: ViTMAE
       - local: model_doc/vit_msn
         title: ViTMSN
-      - local: model_doc/vivit
-        title: ViViT
       - local: model_doc/yolos
         title: YOLOS
       title: Vision models
@@ -557,8 +549,6 @@
         title: MCTCT
       - local: model_doc/mms
         title: MMS
-      - local: model_doc/musicgen
-        title: MusicGen
       - local: model_doc/sew
         title: SEW
       - local: model_doc/sew-d
@@ -618,8 +608,6 @@
         title: GIT
       - local: model_doc/groupvit
         title: GroupViT
-      - local: model_doc/instructblip
-        title: InstructBLIP
       - local: model_doc/layoutlm
         title: LayoutLM
       - local: model_doc/layoutlmv2
