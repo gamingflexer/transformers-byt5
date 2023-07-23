@@ -55,7 +55,7 @@ if is_torch_available():
 if is_vision_available():
     from PIL import Image
 
-    from transformers import DeiTImageProcessor
+    from transformers import DeiTFeatureExtractor
 
 
 class DeiTModelTester:
@@ -381,9 +381,9 @@ def prepare_img():
 @require_vision
 class DeiTModelIntegrationTest(unittest.TestCase):
     @cached_property
-    def default_image_processor(self):
+    def default_feature_extractor(self):
         return (
-            DeiTImageProcessor.from_pretrained("facebook/deit-base-distilled-patch16-224")
+            DeiTFeatureExtractor.from_pretrained("facebook/deit-base-distilled-patch16-224")
             if is_vision_available()
             else None
         )
@@ -394,9 +394,9 @@ class DeiTModelIntegrationTest(unittest.TestCase):
             torch_device
         )
 
-        image_processor = self.default_image_processor
+        feature_extractor = self.default_feature_extractor
         image = prepare_img()
-        inputs = image_processor(images=image, return_tensors="pt").to(torch_device)
+        inputs = feature_extractor(images=image, return_tensors="pt").to(torch_device)
 
         # forward pass
         with torch.no_grad():
@@ -420,10 +420,10 @@ class DeiTModelIntegrationTest(unittest.TestCase):
         model = DeiTModel.from_pretrained(
             "facebook/deit-base-distilled-patch16-224", torch_dtype=torch.float16, device_map="auto"
         )
-        image_processor = self.default_image_processor
+        feature_extractor = self.default_feature_extractor
 
         image = prepare_img()
-        inputs = image_processor(images=image, return_tensors="pt")
+        inputs = feature_extractor(images=image, return_tensors="pt")
         pixel_values = inputs.pixel_values.to(torch_device)
 
         # forward pass to make sure inference works in fp16

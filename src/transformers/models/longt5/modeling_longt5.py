@@ -1763,6 +1763,10 @@ num_heads)`.
     LONGT5_START_DOCSTRING,
 )
 class LongT5Model(LongT5PreTrainedModel):
+    _keys_to_ignore_on_load_missing = [
+        r"encoder.embed_tokens.weight",
+        r"decoder.embed_tokens.weight",
+    ]
     _keys_to_ignore_on_load_unexpected = [
         r"decoder.block.0.layer.1.EncDecAttention.relative_attention_bias.weight",
     ]
@@ -1913,6 +1917,11 @@ class LongT5Model(LongT5PreTrainedModel):
 
 @add_start_docstrings("""LONGT5 Model with a `language modeling` head on top.""", LONGT5_START_DOCSTRING)
 class LongT5ForConditionalGeneration(LongT5PreTrainedModel):
+    _keys_to_ignore_on_load_missing = [
+        r"encoder.embed_tokens.weight",
+        r"decoder.embed_tokens.weight",
+        r"lm_head.weight",
+    ]
     _keys_to_ignore_on_load_unexpected = [
         r"decoder.block.0.layer.1.EncDecAttention.relative_attention_bias.weight",
     ]
@@ -2151,6 +2160,7 @@ class LongT5ForConditionalGeneration(LongT5PreTrainedModel):
     LONGT5_START_DOCSTRING,
 )
 class LongT5EncoderModel(LongT5PreTrainedModel):
+    _keys_to_ignore_on_load_missing = [r"encoder.embed_tokens.weight"]
     _tied_weights_keys = ["encoder.embed_tokens.weight"]
 
     def __init__(self, config: LongT5Config):

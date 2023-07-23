@@ -564,7 +564,7 @@ def prepare_audio(num_samples=1):
 @require_vision
 class TvltModelIntegrationTest(unittest.TestCase):
     @cached_property
-    def default_processors(self):
+    def default_feature_extractor(self):
         # logits were tested with a different mean and std, so we use the same here
         return (
             TvltImageProcessor() if is_vision_available() else None,
@@ -574,7 +574,7 @@ class TvltModelIntegrationTest(unittest.TestCase):
     def test_inference_for_base_model(self):
         model = TvltModel.from_pretrained("ZinengTang/tvlt-base").to(torch_device)
 
-        image_processor, audio_feature_extractor = self.default_processors
+        image_processor, audio_feature_extractor = self.default_feature_extractor
         video = prepare_video()
         audio = prepare_audio()
         video_inputs = image_processor(video, return_tensors="pt").to(torch_device)
@@ -596,7 +596,7 @@ class TvltModelIntegrationTest(unittest.TestCase):
     def test_inference_for_pretraining(self):
         model = TvltForPreTraining.from_pretrained("ZinengTang/tvlt-base").to(torch_device)
 
-        image_processor, audio_feature_extractor = self.default_processors
+        image_processor, audio_feature_extractor = self.default_feature_extractor
         video = prepare_video()
         video_mixed = prepare_video()
         audio = prepare_audio()

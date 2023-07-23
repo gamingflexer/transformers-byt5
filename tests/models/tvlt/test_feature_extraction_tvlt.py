@@ -22,7 +22,7 @@ import unittest
 
 import numpy as np
 
-from transformers import TvltFeatureExtractor, is_datasets_available
+from transformers import is_datasets_available, is_speech_available
 from transformers.testing_utils import check_json_file_has_correct_format, require_torch, require_torchaudio
 from transformers.utils.import_utils import is_torch_available
 
@@ -34,6 +34,9 @@ if is_torch_available():
 
 if is_datasets_available():
     from datasets import load_dataset
+
+if is_speech_available():
+    from transformers import TvltFeatureExtractor
 
 global_rng = random.Random()
 
@@ -108,7 +111,7 @@ class TvltFeatureExtractionTester(unittest.TestCase):
 @require_torch
 @require_torchaudio
 class TvltFeatureExtractionTest(SequenceFeatureExtractionTestMixin, unittest.TestCase):
-    feature_extraction_class = TvltFeatureExtractor
+    feature_extraction_class = TvltFeatureExtractor if is_speech_available() else None
 
     def setUp(self):
         self.feat_extract_tester = TvltFeatureExtractionTester(self)

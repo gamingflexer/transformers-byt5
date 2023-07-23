@@ -22,22 +22,10 @@ allow to make our dependency on SentencePiece optional.
 import warnings
 from typing import Dict, List, Tuple
 
-from packaging import version
 from tokenizers import AddedToken, Regex, Tokenizer, decoders, normalizers, pre_tokenizers, processors
 from tokenizers.models import BPE, Unigram, WordPiece
 
-from .utils import is_protobuf_available, requires_backends
-
-
-def import_protobuf():
-    if is_protobuf_available():
-        import google.protobuf
-
-        if version.parse(google.protobuf.__version__) < version.parse("4.0.0"):
-            from transformers.utils import sentencepiece_model_pb2
-        else:
-            from transformers.utils import sentencepiece_model_pb2_new as sentencepiece_model_pb2
-    return sentencepiece_model_pb2
+from .utils import requires_backends
 
 
 class SentencePieceExtractor:
@@ -457,8 +445,7 @@ class SpmConverter(Converter):
 
         super().__init__(*args)
 
-        # from .utils import sentencepiece_model_pb2 as model_pb2
-        model_pb2 = import_protobuf()
+        from .utils import sentencepiece_model_pb2 as model_pb2
 
         m = model_pb2.ModelProto()
         with open(self.original_tokenizer.vocab_file, "rb") as f:
@@ -564,10 +551,7 @@ class AlbertConverter(SpmConverter):
             list_normalizers.append(normalizers.Lowercase())
 
         precompiled_charsmap = proto.normalizer_spec.precompiled_charsmap
-
-        if precompiled_charsmap:
-            list_normalizers.append(normalizers.Precompiled(precompiled_charsmap))
-
+        list_normalizers.append(normalizers.Precompiled(precompiled_charsmap))
         list_normalizers.append(normalizers.Replace(Regex(" {2,}"), " "))
         return normalizers.Sequence(list_normalizers)
 
@@ -818,10 +802,7 @@ class XLNetConverter(SpmConverter):
             list_normalizers.append(normalizers.Lowercase())
 
         precompiled_charsmap = proto.normalizer_spec.precompiled_charsmap
-
-        if precompiled_charsmap:
-            list_normalizers.append(normalizers.Precompiled(precompiled_charsmap))
-
+        list_normalizers.append(normalizers.Precompiled(precompiled_charsmap))
         list_normalizers.append(normalizers.Replace(Regex(" {2,}"), " "))
         return normalizers.Sequence(list_normalizers)
 
@@ -855,10 +836,7 @@ class RemBertConverter(SpmConverter):
             list_normalizers.append(normalizers.Lowercase())
 
         precompiled_charsmap = proto.normalizer_spec.precompiled_charsmap
-
-        if precompiled_charsmap:
-            list_normalizers.append(normalizers.Precompiled(precompiled_charsmap))
-
+        list_normalizers.append(normalizers.Precompiled(precompiled_charsmap))
         return normalizers.Sequence(list_normalizers)
 
     def post_processor(self):
@@ -1159,9 +1137,9 @@ class LlamaConverter(SpmConverter):
             )
             tokenizer.add_special_tokens(
                 [
-                    AddedToken("<unk>"),
-                    AddedToken("<s>"),
-                    AddedToken("</s>"),
+                    AddedToken("<unk>", normalized=False),
+                    AddedToken("<s>", normalized=False),
+                    AddedToken("</s>", normalized=False),
                 ]
             )
         else:

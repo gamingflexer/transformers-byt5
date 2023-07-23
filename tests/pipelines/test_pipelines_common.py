@@ -46,7 +46,6 @@ from transformers.testing_utils import (
     require_tensorflow_probability,
     require_tf,
     require_torch,
-    require_torch_gpu,
     require_torch_or_tf,
     slow,
 )
@@ -542,20 +541,6 @@ class PipelineUtilsTest(unittest.TestCase):
         # clean-up as much as possible GPU memory occupied by PyTorch
         gc.collect()
         torch.cuda.empty_cache()
-
-    @slow
-    @require_torch
-    @require_torch_gpu
-    def test_pipeline_cuda(self):
-        pipe = pipeline("text-generation", device="cuda")
-        _ = pipe("Hello")
-
-    @slow
-    @require_torch
-    @require_torch_gpu
-    def test_pipeline_cuda_indexed(self):
-        pipe = pipeline("text-generation", device="cuda:0")
-        _ = pipe("Hello")
 
     @slow
     @require_tf

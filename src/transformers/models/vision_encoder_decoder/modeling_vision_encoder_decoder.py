@@ -28,7 +28,6 @@ from ...configuration_utils import PretrainedConfig
 from ...modeling_outputs import BaseModelOutput, Seq2SeqLMOutput
 from ...modeling_utils import PreTrainedModel
 from ...utils import add_start_docstrings, add_start_docstrings_to_model_forward, logging, replace_return_docstrings
-from ..t5 import T5Model,T5EncoderModel,T5ForConditionalGeneration ##
 from ..auto.configuration_auto import AutoConfig
 from ..auto.modeling_auto import AutoModel, AutoModelForCausalLM
 from .configuration_vision_encoder_decoder import VisionEncoderDecoderConfig
@@ -508,8 +507,7 @@ class VisionEncoderDecoderModel(PreTrainedModel):
                     "`decoder_config` to `.from_encoder_decoder_pretrained(...)`"
                 )
 
-            #decoder = AutoModelForCausalLM.from_pretrained(decoder_pretrained_model_name_or_path, **kwargs_decoder)
-            decoder = T5ForConditionalGeneration.from_pretrained(decoder_pretrained_model_name_or_path, **kwargs_decoder)
+            decoder = AutoModelForCausalLM.from_pretrained(decoder_pretrained_model_name_or_path, **kwargs_decoder)
 
         # instantiate config with corresponding kwargs
         config = VisionEncoderDecoderConfig.from_encoder_decoder_configs(encoder.config, decoder.config, **kwargs)
@@ -608,21 +606,19 @@ class VisionEncoderDecoderModel(PreTrainedModel):
             )
 
         # Decode
-        decoder_outputs = self.decoder( ##### self.decoder
+        decoder_outputs = self.decoder(
             input_ids=decoder_input_ids,
             attention_mask=decoder_attention_mask,
-            decoder_input_ids = decoder_input_ids,
-            # encoder_hidden_states=encoder_hidden_states,
-            # encoder_attention_mask=encoder_attention_mask,
+            encoder_hidden_states=encoder_hidden_states,
+            encoder_attention_mask=encoder_attention_mask,
             inputs_embeds=decoder_inputs_embeds,
             output_attentions=output_attentions,
             output_hidden_states=output_hidden_states,
-            # use_cache=use_cache, ##
-            # past_key_values=past_key_values, ##
+            use_cache=use_cache,
+            past_key_values=past_key_values,
             return_dict=return_dict,
             **kwargs_decoder,
         )
-
 
         # Compute loss independent from decoder (as some shift the logits inside them)
         loss = None
@@ -639,10 +635,10 @@ class VisionEncoderDecoderModel(PreTrainedModel):
 
         return Seq2SeqLMOutput(
             loss=loss,
-            logits=decoder_outputs.logits, #changed for 
+            logits=decoder_outputs.logits,
             past_key_values=decoder_outputs.past_key_values,
-            # decoder_hidden_states=decoder_outputs.hidden_states,
-            # decoder_attentions=decoder_outputs.attentions,
+            decoder_hidden_states=decoder_outputs.hidden_states,
+            decoder_attentions=decoder_outputs.attentions,
             cross_attentions=decoder_outputs.cross_attentions,
             encoder_last_hidden_state=encoder_outputs.last_hidden_state,
             encoder_hidden_states=encoder_outputs.hidden_states,

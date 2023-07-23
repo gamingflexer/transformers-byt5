@@ -61,7 +61,7 @@ if is_torch_available():
 if is_vision_available():
     from PIL import Image
 
-    from transformers import PerceiverImageProcessor
+    from transformers import PerceiverFeatureExtractor
 
 
 class PerceiverModelTester:
@@ -899,13 +899,13 @@ class PerceiverModelIntegrationTest(unittest.TestCase):
 
     @slow
     def test_inference_image_classification(self):
-        image_processor = PerceiverImageProcessor()
+        feature_extractor = PerceiverFeatureExtractor()
         model = PerceiverForImageClassificationLearned.from_pretrained("deepmind/vision-perceiver-learned")
         model.to(torch_device)
 
         # prepare inputs
         image = prepare_img()
-        inputs = image_processor(image, return_tensors="pt").pixel_values.to(torch_device)
+        inputs = feature_extractor(image, return_tensors="pt").pixel_values.to(torch_device)
         input_mask = None
 
         # forward pass
@@ -923,13 +923,13 @@ class PerceiverModelIntegrationTest(unittest.TestCase):
 
     @slow
     def test_inference_image_classification_fourier(self):
-        image_processor = PerceiverImageProcessor()
+        feature_extractor = PerceiverFeatureExtractor()
         model = PerceiverForImageClassificationFourier.from_pretrained("deepmind/vision-perceiver-fourier")
         model.to(torch_device)
 
         # prepare inputs
         image = prepare_img()
-        inputs = image_processor(image, return_tensors="pt").pixel_values.to(torch_device)
+        inputs = feature_extractor(image, return_tensors="pt").pixel_values.to(torch_device)
         input_mask = None
 
         # forward pass
@@ -947,13 +947,13 @@ class PerceiverModelIntegrationTest(unittest.TestCase):
 
     @slow
     def test_inference_image_classification_conv(self):
-        image_processor = PerceiverImageProcessor()
+        feature_extractor = PerceiverFeatureExtractor()
         model = PerceiverForImageClassificationConvProcessing.from_pretrained("deepmind/vision-perceiver-conv")
         model.to(torch_device)
 
         # prepare inputs
         image = prepare_img()
-        inputs = image_processor(image, return_tensors="pt").pixel_values.to(torch_device)
+        inputs = feature_extractor(image, return_tensors="pt").pixel_values.to(torch_device)
         input_mask = None
 
         # forward pass

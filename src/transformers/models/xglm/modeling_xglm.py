@@ -16,6 +16,7 @@
 
 
 import math
+import random
 from typing import List, Optional, Tuple, Union
 
 import torch
@@ -667,10 +668,9 @@ class XGLMModel(XGLMPreTrainedModel):
             # add LayerDrop (see https://arxiv.org/abs/1909.11556 for description)
             if output_hidden_states:
                 all_hidden_states += (hidden_states,)
-            if self.training:
-                dropout_probability = torch.rand([])
-                if dropout_probability < self.layerdrop:
-                    continue
+            dropout_probability = random.uniform(0, 1)
+            if self.training and (dropout_probability < self.layerdrop):
+                continue
 
             past_key_value = past_key_values[idx] if past_key_values is not None else None
 
@@ -749,6 +749,14 @@ class XGLMModel(XGLMPreTrainedModel):
 )
 class XGLMForCausalLM(XGLMPreTrainedModel):
     base_model_prefix = "model"
+    _keys_to_ignore_on_load_missing = [
+        r"model.embed_positions.weights",
+        r"embed_positions.weights",
+        r"lm_head.weight",
+    ]
+    _keys_to_ignore_on_save = [
+        r"model.embed_positions.weights",
+    ]
     _tied_weights_keys = ["lm_head.weight"]
 
     def __init__(self, config):

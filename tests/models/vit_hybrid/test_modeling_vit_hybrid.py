@@ -243,7 +243,7 @@ def prepare_img():
 @require_vision
 class ViTModelIntegrationTest(unittest.TestCase):
     @cached_property
-    def default_image_processor(self):
+    def default_feature_extractor(self):
         return (
             ViTHybridImageProcessor.from_pretrained(VIT_HYBRID_PRETRAINED_MODEL_ARCHIVE_LIST[0])
             if is_vision_available()
@@ -256,9 +256,9 @@ class ViTModelIntegrationTest(unittest.TestCase):
             torch_device
         )
 
-        image_processor = self.default_image_processor
+        feature_extractor = self.default_feature_extractor
         image = prepare_img()
-        inputs = image_processor(images=image, return_tensors="pt").to(torch_device)
+        inputs = feature_extractor(images=image, return_tensors="pt").to(torch_device)
 
         # forward pass
         with torch.no_grad():
@@ -275,12 +275,12 @@ class ViTModelIntegrationTest(unittest.TestCase):
     @slow
     @require_accelerate
     def test_accelerate_inference(self):
-        image_processor = ViTHybridImageProcessor.from_pretrained("google/vit-hybrid-base-bit-384")
+        feature_extractor = ViTHybridImageProcessor.from_pretrained("google/vit-hybrid-base-bit-384")
         model = ViTHybridForImageClassification.from_pretrained("google/vit-hybrid-base-bit-384", device_map="auto")
 
         image = prepare_img()
 
-        inputs = image_processor(images=image, return_tensors="pt")
+        inputs = feature_extractor(images=image, return_tensors="pt")
         outputs = model(**inputs)
         logits = outputs.logits
         # model predicts one of the 1000 ImageNet classes

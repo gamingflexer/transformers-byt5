@@ -135,9 +135,6 @@ class FlaxAlbertPreTrainedModel(metaclass=DummyObject):
         requires_backends(self, ["flax"])
 
 
-FLAX_MODEL_FOR_AUDIO_CLASSIFICATION_MAPPING = None
-
-
 FLAX_MODEL_FOR_CAUSAL_LM_MAPPING = None
 
 

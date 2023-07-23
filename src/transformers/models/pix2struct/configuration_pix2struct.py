@@ -153,8 +153,6 @@ class Pix2StructTextConfig(PretrainedConfig):
     def from_pretrained(
         cls, pretrainehidden_size_name_or_path: Union[str, os.PathLike], **kwargs
     ) -> "PretrainedConfig":
-        cls._set_token_in_kwargs(kwargs)
-
         config_dict, kwargs = cls.get_config_dict(pretrainehidden_size_name_or_path, **kwargs)
 
         # get the text config dict if we are loading from Pix2StructConfig
@@ -272,8 +270,6 @@ class Pix2StructVisionConfig(PretrainedConfig):
     def from_pretrained(
         cls, pretrainehidden_size_name_or_path: Union[str, os.PathLike], **kwargs
     ) -> "PretrainedConfig":
-        cls._set_token_in_kwargs(kwargs)
-
         config_dict, kwargs = cls.get_config_dict(pretrainehidden_size_name_or_path, **kwargs)
 
         # get the vision config dict if we are loading from Pix2StructConfig

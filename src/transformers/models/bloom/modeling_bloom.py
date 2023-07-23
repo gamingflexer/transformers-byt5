@@ -135,7 +135,7 @@ def dropout_add(x: torch.Tensor, residual: torch.Tensor, prob: float, training: 
         x (`torch.tensor`, *required*):
             input tensor
         residual (`torch.tensor`, *required*):
-            residual tensor
+            esidual tensor
         prob (`float`, *required*):
             dropout probability
         training (`bool`, *required*):
@@ -471,6 +471,12 @@ class BloomBlock(nn.Module):
 
 
 class BloomPreTrainedModel(PreTrainedModel):
+    _keys_to_ignore_on_load_missing = [r"h.*.self_attention.scale_mask_softmax.causal_mask", r"lm_head.weight"]
+    """
+    An abstract class to handle weights initialization and a simple interface for downloading and loading pretrained
+    models.
+    """
+
     config_class = BloomConfig
     base_model_prefix = "transformer"
     supports_gradient_checkpointing = True
@@ -820,6 +826,7 @@ class BloomModel(BloomPreTrainedModel):
     BLOOM_START_DOCSTRING,
 )
 class BloomForCausalLM(BloomPreTrainedModel):
+    _keys_to_ignore_on_load_missing = [r"h.*.self_attention.scale_mask_softmax.causal_mask", r"lm_head.weight"]
     _tied_weights_keys = ["lm_head.weight"]
 
     def __init__(self, config: BloomConfig):
@@ -988,6 +995,8 @@ class BloomForCausalLM(BloomPreTrainedModel):
     BLOOM_START_DOCSTRING,
 )
 class BloomForSequenceClassification(BloomPreTrainedModel):
+    _keys_to_ignore_on_load_missing = [r"h.*.self_attention.scale_mask_softmax.causal_mask", r"lm_head.weight"]
+
     def __init__(self, config: BloomConfig):
         super().__init__(config)
         self.num_labels = config.num_labels
@@ -1114,6 +1123,8 @@ class BloomForSequenceClassification(BloomPreTrainedModel):
     BLOOM_START_DOCSTRING,
 )
 class BloomForTokenClassification(BloomPreTrainedModel):
+    _keys_to_ignore_on_load_missing = [r"h.*.self_attention.scale_mask_softmax.causal_mask", r"lm_head.weight"]
+
     def __init__(self, config: BloomConfig):
         super().__init__(config)
         self.num_labels = config.num_labels
@@ -1215,6 +1226,8 @@ class BloomForTokenClassification(BloomPreTrainedModel):
     BLOOM_START_DOCSTRING,
 )
 class BloomForQuestionAnswering(BloomPreTrainedModel):
+    _keys_to_ignore_on_load_missing = [r"h.*.self_attention.scale_mask_softmax.causal_mask", r"lm_head.weight"]
+
     def __init__(self, config):
         super().__init__(config)
         self.transformer = BloomModel(config)

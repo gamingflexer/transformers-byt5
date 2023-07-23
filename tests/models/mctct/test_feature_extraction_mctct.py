@@ -20,11 +20,14 @@ import unittest
 
 import numpy as np
 
-from transformers import MCTCTFeatureExtractor
+from transformers import is_speech_available
 from transformers.testing_utils import require_torch
 
 from ...test_sequence_feature_extraction_common import SequenceFeatureExtractionTestMixin
 
+
+if is_speech_available():
+    from transformers import MCTCTFeatureExtractor
 
 global_rng = random.Random()
 
@@ -99,7 +102,7 @@ class MCTCTFeatureExtractionTester(unittest.TestCase):
 
 @require_torch
 class MCTCTFeatureExtractionTest(SequenceFeatureExtractionTestMixin, unittest.TestCase):
-    feature_extraction_class = MCTCTFeatureExtractor
+    feature_extraction_class = MCTCTFeatureExtractor if is_speech_available() else None
 
     def setUp(self):
         self.feat_extract_tester = MCTCTFeatureExtractionTester(self)

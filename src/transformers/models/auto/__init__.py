@@ -40,7 +40,6 @@ except OptionalDependencyNotAvailable:
 else:
     _import_structure["modeling_auto"] = [
         "MODEL_FOR_AUDIO_CLASSIFICATION_MAPPING",
-        "MODEL_FOR_AUDIO_FRAME_CLASSIFICATION_MAPPING",
         "MODEL_FOR_AUDIO_XVECTOR_MAPPING",
         "MODEL_FOR_BACKBONE_MAPPING",
         "MODEL_FOR_CAUSAL_IMAGE_MODELING_MAPPING",
@@ -64,7 +63,6 @@ else:
         "MODEL_FOR_SEQUENCE_CLASSIFICATION_MAPPING",
         "MODEL_FOR_SPEECH_SEQ_2_SEQ_MAPPING",
         "MODEL_FOR_TABLE_QUESTION_ANSWERING_MAPPING",
-        "MODEL_FOR_TEXT_ENCODING_MAPPING",
         "MODEL_FOR_TOKEN_CLASSIFICATION_MAPPING",
         "MODEL_FOR_UNIVERSAL_SEGMENTATION_MAPPING",
         "MODEL_FOR_VIDEO_CLASSIFICATION_MAPPING",
@@ -86,7 +84,6 @@ else:
         "AutoModelForImageSegmentation",
         "AutoModelForInstanceSegmentation",
         "AutoModelForMaskGeneration",
-        "AutoModelForTextEncoding",
         "AutoModelForMaskedImageModeling",
         "AutoModelForMaskedLM",
         "AutoModelForMultipleChoice",
@@ -117,10 +114,8 @@ except OptionalDependencyNotAvailable:
     pass
 else:
     _import_structure["modeling_tf_auto"] = [
-        "TF_MODEL_FOR_AUDIO_CLASSIFICATION_MAPPING",
         "TF_MODEL_FOR_CAUSAL_LM_MAPPING",
         "TF_MODEL_FOR_IMAGE_CLASSIFICATION_MAPPING",
-        "TF_MODEL_FOR_MASK_GENERATION_MAPPING",
         "TF_MODEL_FOR_MASKED_IMAGE_MODELING_MAPPING",
         "TF_MODEL_FOR_MASKED_LM_MAPPING",
         "TF_MODEL_FOR_MULTIPLE_CHOICE_MAPPING",
@@ -133,19 +128,15 @@ else:
         "TF_MODEL_FOR_SEQUENCE_CLASSIFICATION_MAPPING",
         "TF_MODEL_FOR_SPEECH_SEQ_2_SEQ_MAPPING",
         "TF_MODEL_FOR_TABLE_QUESTION_ANSWERING_MAPPING",
-        "TF_MODEL_FOR_TEXT_ENCODING_MAPPING",
         "TF_MODEL_FOR_TOKEN_CLASSIFICATION_MAPPING",
         "TF_MODEL_FOR_VISION_2_SEQ_MAPPING",
         "TF_MODEL_FOR_ZERO_SHOT_IMAGE_CLASSIFICATION_MAPPING",
         "TF_MODEL_MAPPING",
         "TF_MODEL_WITH_LM_HEAD_MAPPING",
         "TFAutoModel",
-        "TFAutoModelForAudioClassification",
         "TFAutoModelForCausalLM",
         "TFAutoModelForImageClassification",
-        "TFAutoModelForMaskedImageModeling",
         "TFAutoModelForMaskedLM",
-        "TFAutoModelForMaskGeneration",
         "TFAutoModelForMultipleChoice",
         "TFAutoModelForNextSentencePrediction",
         "TFAutoModelForPreTraining",
@@ -156,7 +147,6 @@ else:
         "TFAutoModelForSequenceClassification",
         "TFAutoModelForSpeechSeq2Seq",
         "TFAutoModelForTableQuestionAnswering",
-        "TFAutoModelForTextEncoding",
         "TFAutoModelForTokenClassification",
         "TFAutoModelForVision2Seq",
         "TFAutoModelForZeroShotImageClassification",
@@ -170,7 +160,6 @@ except OptionalDependencyNotAvailable:
     pass
 else:
     _import_structure["modeling_flax_auto"] = [
-        "FLAX_MODEL_FOR_AUDIO_CLASSIFICATION_MAPPING",
         "FLAX_MODEL_FOR_CAUSAL_LM_MAPPING",
         "FLAX_MODEL_FOR_IMAGE_CLASSIFICATION_MAPPING",
         "FLAX_MODEL_FOR_MASKED_LM_MAPPING",
@@ -216,7 +205,6 @@ if TYPE_CHECKING:
     else:
         from .modeling_auto import (
             MODEL_FOR_AUDIO_CLASSIFICATION_MAPPING,
-            MODEL_FOR_AUDIO_FRAME_CLASSIFICATION_MAPPING,
             MODEL_FOR_AUDIO_XVECTOR_MAPPING,
             MODEL_FOR_BACKBONE_MAPPING,
             MODEL_FOR_CAUSAL_IMAGE_MODELING_MAPPING,
@@ -240,7 +228,6 @@ if TYPE_CHECKING:
             MODEL_FOR_SEQUENCE_CLASSIFICATION_MAPPING,
             MODEL_FOR_SPEECH_SEQ_2_SEQ_MAPPING,
             MODEL_FOR_TABLE_QUESTION_ANSWERING_MAPPING,
-            MODEL_FOR_TEXT_ENCODING_MAPPING,
             MODEL_FOR_TOKEN_CLASSIFICATION_MAPPING,
             MODEL_FOR_UNIVERSAL_SEGMENTATION_MAPPING,
             MODEL_FOR_VIDEO_CLASSIFICATION_MAPPING,
@@ -275,7 +262,6 @@ if TYPE_CHECKING:
             AutoModelForSequenceClassification,
             AutoModelForSpeechSeq2Seq,
             AutoModelForTableQuestionAnswering,
-            AutoModelForTextEncoding,
             AutoModelForTokenClassification,
             AutoModelForUniversalSegmentation,
             AutoModelForVideoClassification,
@@ -293,11 +279,9 @@ if TYPE_CHECKING:
         pass
     else:
         from .modeling_tf_auto import (
-            TF_MODEL_FOR_AUDIO_CLASSIFICATION_MAPPING,
             TF_MODEL_FOR_CAUSAL_LM_MAPPING,
             TF_MODEL_FOR_DOCUMENT_QUESTION_ANSWERING_MAPPING,
             TF_MODEL_FOR_IMAGE_CLASSIFICATION_MAPPING,
-            TF_MODEL_FOR_MASK_GENERATION_MAPPING,
             TF_MODEL_FOR_MASKED_IMAGE_MODELING_MAPPING,
             TF_MODEL_FOR_MASKED_LM_MAPPING,
             TF_MODEL_FOR_MULTIPLE_CHOICE_MAPPING,
@@ -309,20 +293,16 @@ if TYPE_CHECKING:
             TF_MODEL_FOR_SEQUENCE_CLASSIFICATION_MAPPING,
             TF_MODEL_FOR_SPEECH_SEQ_2_SEQ_MAPPING,
             TF_MODEL_FOR_TABLE_QUESTION_ANSWERING_MAPPING,
-            TF_MODEL_FOR_TEXT_ENCODING_MAPPING,
             TF_MODEL_FOR_TOKEN_CLASSIFICATION_MAPPING,
             TF_MODEL_FOR_VISION_2_SEQ_MAPPING,
             TF_MODEL_FOR_ZERO_SHOT_IMAGE_CLASSIFICATION_MAPPING,
             TF_MODEL_MAPPING,
             TF_MODEL_WITH_LM_HEAD_MAPPING,
             TFAutoModel,
-            TFAutoModelForAudioClassification,
             TFAutoModelForCausalLM,
             TFAutoModelForDocumentQuestionAnswering,
             TFAutoModelForImageClassification,
-            TFAutoModelForMaskedImageModeling,
             TFAutoModelForMaskedLM,
-            TFAutoModelForMaskGeneration,
             TFAutoModelForMultipleChoice,
             TFAutoModelForNextSentencePrediction,
             TFAutoModelForPreTraining,
@@ -332,7 +312,6 @@ if TYPE_CHECKING:
             TFAutoModelForSequenceClassification,
             TFAutoModelForSpeechSeq2Seq,
             TFAutoModelForTableQuestionAnswering,
-            TFAutoModelForTextEncoding,
             TFAutoModelForTokenClassification,
             TFAutoModelForVision2Seq,
             TFAutoModelForZeroShotImageClassification,
@@ -346,7 +325,6 @@ if TYPE_CHECKING:
         pass
     else:
         from .modeling_flax_auto import (
-            FLAX_MODEL_FOR_AUDIO_CLASSIFICATION_MAPPING,
             FLAX_MODEL_FOR_CAUSAL_LM_MAPPING,
             FLAX_MODEL_FOR_IMAGE_CLASSIFICATION_MAPPING,
             FLAX_MODEL_FOR_MASKED_LM_MAPPING,

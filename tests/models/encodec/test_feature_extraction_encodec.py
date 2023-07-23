@@ -20,12 +20,15 @@ import unittest
 
 import numpy as np
 
-from transformers import EncodecFeatureExtractor
+from transformers import is_speech_available
 from transformers.testing_utils import require_torch
 from transformers.utils.import_utils import is_torch_available
 
 from ...test_sequence_feature_extraction_common import SequenceFeatureExtractionTestMixin
 
+
+if is_speech_available():
+    from transformers import EncodecFeatureExtractor
 
 if is_torch_available():
     import torch
@@ -100,7 +103,7 @@ class EnCodecFeatureExtractionTester(unittest.TestCase):
 
 @require_torch
 class EnCodecFeatureExtractionTest(SequenceFeatureExtractionTestMixin, unittest.TestCase):
-    feature_extraction_class = EncodecFeatureExtractor
+    feature_extraction_class = EncodecFeatureExtractor if is_speech_available() else None
 
     def setUp(self):
         self.feat_extract_tester = EnCodecFeatureExtractionTester(self)

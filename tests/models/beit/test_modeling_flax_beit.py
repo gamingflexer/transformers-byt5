@@ -33,7 +33,7 @@ if is_flax_available():
 if is_vision_available():
     from PIL import Image
 
-    from transformers import BeitImageProcessor
+    from transformers import BeitFeatureExtractor
 
 
 class FlaxBeitModelTester(unittest.TestCase):
@@ -219,16 +219,18 @@ def prepare_img():
 @require_flax
 class FlaxBeitModelIntegrationTest(unittest.TestCase):
     @cached_property
-    def default_image_processor(self):
-        return BeitImageProcessor.from_pretrained("microsoft/beit-base-patch16-224") if is_vision_available() else None
+    def default_feature_extractor(self):
+        return (
+            BeitFeatureExtractor.from_pretrained("microsoft/beit-base-patch16-224") if is_vision_available() else None
+        )
 
     @slow
     def test_inference_masked_image_modeling_head(self):
         model = FlaxBeitForMaskedImageModeling.from_pretrained("microsoft/beit-base-patch16-224-pt22k")
 
-        image_processor = self.default_image_processor
+        feature_extractor = self.default_feature_extractor
         image = prepare_img()
-        pixel_values = image_processor(images=image, return_tensors="np").pixel_values
+        pixel_values = feature_extractor(images=image, return_tensors="np").pixel_values
 
         # prepare bool_masked_pos
         bool_masked_pos = np.ones((1, 196), dtype=bool)
@@ -251,9 +253,9 @@ class FlaxBeitModelIntegrationTest(unittest.TestCase):
     def test_inference_image_classification_head_imagenet_1k(self):
         model = FlaxBeitForImageClassification.from_pretrained("microsoft/beit-base-patch16-224")
 
-        image_processor = self.default_image_processor
+        feature_extractor = self.default_feature_extractor
         image = prepare_img()
-        inputs = image_processor(images=image, return_tensors="np")
+        inputs = feature_extractor(images=image, return_tensors="np")
 
         # forward pass
         outputs = model(**inputs)
@@ -274,9 +276,9 @@ class FlaxBeitModelIntegrationTest(unittest.TestCase):
     def test_inference_image_classification_head_imagenet_22k(self):
         model = FlaxBeitForImageClassification.from_pretrained("microsoft/beit-large-patch16-224-pt22k-ft22k")
 
-        image_processor = self.default_image_processor
+        feature_extractor = self.default_feature_extractor
         image = prepare_img()
-        inputs = image_processor(images=image, return_tensors="np")
+        inputs = feature_extractor(images=image, return_tensors="np")
 
         # forward pass
         outputs = model(**inputs)

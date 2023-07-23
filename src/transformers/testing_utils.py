@@ -77,7 +77,6 @@ from .utils import (
     is_safetensors_available,
     is_scipy_available,
     is_sentencepiece_available,
-    is_seqio_available,
     is_soundfile_availble,
     is_spacy_available,
     is_sudachi_available,
@@ -441,13 +440,6 @@ def require_sentencepiece(test_case):
     Decorator marking a test that requires SentencePiece. These tests are skipped when SentencePiece isn't installed.
     """
     return unittest.skipUnless(is_sentencepiece_available(), "test requires SentencePiece")(test_case)
-
-
-def require_seqio(test_case):
-    """
-    Decorator marking a test that requires SentencePiece. These tests are skipped when SentencePiece isn't installed.
-    """
-    return unittest.skipUnless(is_seqio_available(), "test requires Seqio")(test_case)
 
 
 def require_scipy(test_case):
@@ -1865,9 +1857,9 @@ To skip cuda tests, make sure to call `SKIP_CUDA_DOCTEST=1 pytest --doctest-modu
 
 
 def preprocess_string(string, skip_cuda_tests):
-    """Prepare a docstring or a `.md` file to be run by doctest.
+    """Prepare a docstring or a `.mdx` file to be run by doctest.
 
-    The argument `string` would be the whole file content if it is a `.md` file. For a python file, it would be one of
+    The argument `string` would be the whole file content if it is a `.mdx` file. For a python file, it would be one of
     its docstring. In each case, it may contain multiple python code examples. If `skip_cuda_tests` is `True` and a
     cuda stuff is detective (with a heuristic), this method will return an empty string so no doctest will be run for
     `string`.

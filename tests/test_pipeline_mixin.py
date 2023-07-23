@@ -17,7 +17,6 @@ import copy
 import json
 import os
 import random
-import unittest
 from pathlib import Path
 
 from transformers.testing_utils import (
@@ -315,6 +314,7 @@ class PipelineTesterMixin:
         run_batch_test(pipeline, examples)
 
     @is_pipeline_test
+    @require_torch
     def test_pipeline_audio_classification(self):
         self.run_task_tests(task="audio-classification")
 
@@ -366,7 +366,6 @@ class PipelineTesterMixin:
     def test_pipeline_image_to_text(self):
         self.run_task_tests(task="image-to-text")
 
-    @unittest.skip(reason="`run_pipeline_test` is currently not implemented.")
     @is_pipeline_test
     @require_vision
     @require_torch

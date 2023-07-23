@@ -245,9 +245,7 @@ class LayoutLMv3TextEmbeddings(nn.Module):
         self.dropout = nn.Dropout(config.hidden_dropout_prob)
 
         # position_ids (1, len position emb) is contiguous in memory and exported when serialized
-        self.register_buffer(
-            "position_ids", torch.arange(config.max_position_embeddings).expand((1, -1)), persistent=False
-        )
+        self.register_buffer("position_ids", torch.arange(config.max_position_embeddings).expand((1, -1)))
 
         self.padding_idx = config.pad_token_id
         self.position_embeddings = nn.Embedding(
@@ -752,6 +750,8 @@ class LayoutLMv3Output(nn.Module):
     LAYOUTLMV3_START_DOCSTRING,
 )
 class LayoutLMv3Model(LayoutLMv3PreTrainedModel):
+    _keys_to_ignore_on_load_missing = [r"position_ids"]
+
     def __init__(self, config):
         super().__init__(config)
         self.config = config
@@ -1038,6 +1038,9 @@ class LayoutLMv3ClassificationHead(nn.Module):
     LAYOUTLMV3_START_DOCSTRING,
 )
 class LayoutLMv3ForTokenClassification(LayoutLMv3PreTrainedModel):
+    _keys_to_ignore_on_load_unexpected = [r"pooler"]
+    _keys_to_ignore_on_load_missing = [r"position_ids"]
+
     def __init__(self, config):
         super().__init__(config)
         self.num_labels = config.num_labels
@@ -1150,6 +1153,9 @@ class LayoutLMv3ForTokenClassification(LayoutLMv3PreTrainedModel):
     LAYOUTLMV3_START_DOCSTRING,
 )
 class LayoutLMv3ForQuestionAnswering(LayoutLMv3PreTrainedModel):
+    _keys_to_ignore_on_load_unexpected = [r"pooler"]
+    _keys_to_ignore_on_load_missing = [r"position_ids"]
+
     def __init__(self, config):
         super().__init__(config)
         self.num_labels = config.num_labels
@@ -1280,6 +1286,8 @@ class LayoutLMv3ForQuestionAnswering(LayoutLMv3PreTrainedModel):
     LAYOUTLMV3_START_DOCSTRING,
 )
 class LayoutLMv3ForSequenceClassification(LayoutLMv3PreTrainedModel):
+    _keys_to_ignore_on_load_missing = [r"position_ids"]
+
     def __init__(self, config):
         super().__init__(config)
         self.num_labels = config.num_labels

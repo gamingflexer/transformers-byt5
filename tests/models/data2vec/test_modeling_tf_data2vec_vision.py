@@ -46,7 +46,7 @@ if is_tf_available():
 if is_vision_available():
     from PIL import Image
 
-    from transformers import BeitImageProcessor
+    from transformers import BeitFeatureExtractor
 
 
 class TFData2VecVisionModelTester:
@@ -61,7 +61,7 @@ class TFData2VecVisionModelTester:
         is_training=True,
         use_labels=True,
         hidden_size=32,
-        num_hidden_layers=2,
+        num_hidden_layers=4,
         num_attention_heads=4,
         intermediate_size=37,
         hidden_act="gelu",
@@ -469,18 +469,20 @@ def prepare_img():
 @require_vision
 class TFData2VecVisionModelIntegrationTest(unittest.TestCase):
     @cached_property
-    def default_image_processor(self):
+    def default_feature_extractor(self):
         return (
-            BeitImageProcessor.from_pretrained("facebook/data2vec-vision-base-ft1k") if is_vision_available() else None
+            BeitFeatureExtractor.from_pretrained("facebook/data2vec-vision-base-ft1k")
+            if is_vision_available()
+            else None
         )
 
     @slow
     def test_inference_image_classification_head_imagenet_1k(self):
         model = TFData2VecVisionForImageClassification.from_pretrained("facebook/data2vec-vision-base-ft1k")
 
-        image_processor = self.default_image_processor
+        feature_extractor = self.default_feature_extractor
         image = prepare_img()
-        inputs = image_processor(images=image, return_tensors="tf")
+        inputs = feature_extractor(images=image, return_tensors="tf")
 
         # forward pass
         outputs = model(**inputs)

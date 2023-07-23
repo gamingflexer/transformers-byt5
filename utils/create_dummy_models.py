@@ -110,7 +110,6 @@ UNCONVERTIBLE_MODEL_ARCHITECTURES = {
     "MaskFormerSwinBackbone",
     "MT5Model",
     "MT5ForConditionalGeneration",
-    "UMT5ForConditionalGeneration",
     "TFMT5ForConditionalGeneration",
     "TFMT5Model",
     "QDQBertForSequenceClassification",
@@ -736,7 +735,7 @@ def build_model(model_arch, tiny_config, output_dir):
 
     tiny_config = copy.deepcopy(tiny_config)
 
-    if any(model_arch.__name__.endswith(x) for x in ["ForCausalLM", "LMHeadModel"]):
+    if any([model_arch.__name__.endswith(x) for x in ["ForCausalLM", "LMHeadModel"]]):
         tiny_config.is_encoder_decoder = False
         tiny_config.is_decoder = True
 

@@ -11,6 +11,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+import sys
 
 from .dependency_versions_table import deps
 from .utils.versions import require_version, require_version_core
@@ -36,6 +37,9 @@ pkgs_to_check_at_runtime = [
     "accelerate",
     "pyyaml",
 ]
+
+if sys.version_info < (3, 8):
+    pkgs_to_check_at_runtime.append("importlib_metadata")
 
 for pkg in pkgs_to_check_at_runtime:
     if pkg in deps:
