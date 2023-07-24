@@ -193,7 +193,7 @@ class VisionEncoderDecoderModel(PreTrainedModel):
             encoder = AutoModel.from_config(config.encoder)
 
         if decoder is None:
-            decoder = AutoModelForCausalLM.from_config(config.decoder)
+            decoder = T5ForConditionalGeneration.from_config(config.decoder)
 
         self.encoder = encoder
         self.decoder = decoder
